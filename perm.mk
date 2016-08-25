@@ -19,7 +19,6 @@ PERMISSIONS_XML_FILES := \
 	frameworks/native/data/etc/android.software.sip.voip.xml \
 	frameworks/native/data/etc/android.software.sip.xml \
 	frameworks/native/data/etc/handheld_core_hardware.xml \
-	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml \
 
 PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/$(notdir $(f)))
