@@ -40,6 +40,7 @@ std::string device;
 enum device_variant {
 	G360H,
 	G360HU,
+	I9060I,
 	G361H,
 	G531BT,
 	G531H,
@@ -51,6 +52,8 @@ device_variant match(std::string bl)
                 return G360H;
         } else if (bl.find("G360HU") != std::string::npos) {
                 return G360HU;
+	} else if (bl.find("I9060I") != std::string::npos) {
+                return I9060I;
         } else if (bl.find("G361H") != std::string::npos) {
                 return G361H;
         } else if (bl.find("G531BT") != std::string::npos) {
@@ -80,6 +83,11 @@ void vendor_load_properties()
 		        /* core33gdc */
 		        property_set("ro.product.model", "SM-G360HU");
 		        property_set("ro.product.device", "core33g");
+			break;
+		case I9060I:
+		        /* grandneove3gxx */
+		        property_set("ro.product.model", "GT-I9060I");
+		        property_set("ro.product.device", "grandneove3g");
 			break;
 		case G361H:
 		        /* coreprimeve3gxx */
