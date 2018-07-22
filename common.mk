@@ -17,14 +17,15 @@ LOCAL_PATH := device/samsung/scx35-common
 # Inherit from AOSP product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit from sprd-common device configuration
-$(call inherit-product, device/samsung/sprd-common/common.mk)
-
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay-lineage
 
 # Audio
 PRODUCT_PACKAGES += \
+	audio.a2dp.default \
+	audio.usb.default \
+	audio.r_submix.default \
+	libtinyalsa \
 	audio_hw.xml \
 	audio_para \
 	audio_effects_vendor.conf \
@@ -161,11 +162,27 @@ PRODUCT_PACKAGES += \
 	macloader \
 	libandroid_net \
 	libwpa_client \
+	dhcpcd.conf \
 	wificond \
 	wifilogd \
+	wpa_supplicant \
+	hostapd \
 	wpa_supplicant.conf \
 	wpa_supplicant_overlay.conf \
 	p2p_supplicant_overlay.conf
+
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+	f2fstat \
+	fibmap.f2fs \
+	fsck.f2fs \
+	mkfs.f2fs \
+	setup_fs
+
+# Device RIL props
+PRODUCT_PROPERTY_OVERRIDES += \
+	keyguard.no_require_sim=true \
+	ro.com.android.dataroaming=false
 
 # Disable mobile data on first boot
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -195,18 +212,6 @@ include $(LOCAL_PATH)/hidl.mk
 PRODUCT_PROPERTY_OVERRIDES += \
 	sys.use_fifo_ui=1
 
-# Permissions
-PERMISSIONS_XML_FILES := \
-	frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml \
-	frameworks/native/data/etc/android.hardware.camera.front.xml \
-	frameworks/native/data/etc/android.hardware.camera.xml \
-	frameworks/native/data/etc/android.hardware.sensor.proximity.xml \
-	frameworks/native/data/etc/android.hardware.sensor.light.xml \
-	frameworks/native/data/etc/android.software.midi.xml \
-	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml
-
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/$(notdir $(f)))
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -236,4 +241,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.config.low_ram=false
 
+$(call inherit-product, $(LOCAL_PATH)/perm.mk)
 $(call inherit-product, build/target/product/go_defaults_512.mk)

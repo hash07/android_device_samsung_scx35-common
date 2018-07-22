@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from SPRD common configs
--include device/samsung/sprd-common/BoardConfigCommon.mk
-
 # Platform
 TARGET_ARCH := arm
 TARGET_BOARD_PLATFORM := sc8830
@@ -26,11 +23,14 @@ TARGET_NO_BOOTLOADER := true
 BOARD_VENDOR := samsung
 
 # Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
 USE_BLUETOOTH_BCM4343 := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/scx35-common/bluetooth
 BOARD_CUSTOM_BT_CONFIG := device/samsung/scx35-common/bluetooth/libbt_vndcfg.txt
 
 # RIL
+BOARD_PROVIDES_LIBRIL := true
 TARGET_DISABLE_ASHMEM_TRACKING := true
 
 # Graphics
@@ -47,6 +47,10 @@ BOARD_CANT_REALLOCATE_OMX_BUFFERS := true
 
 # seccomp
 #BOARD_SECCOMP_POLICY := device/samsung/scx35-common/seccomp # This flag is dead?
+
+# Audio
+BOARD_USES_TINYALSA_AUDIO := true
+TARGET_TINY_ALSA_IGNORE_SILENCE_SIZE := true
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/scx35-common/mkbootimg.mk
@@ -74,6 +78,9 @@ WITHOUT_CHECK_API := true
 
 # Lights
 TARGET_HAS_BACKLIT_KEYS := false
+
+# LineageHw
+BOARD_HARDWARE_CLASS := device/samsung/scx35-common/lineagehw/
 
 # Target shims
 TARGET_LD_SHIM_LIBS := \
